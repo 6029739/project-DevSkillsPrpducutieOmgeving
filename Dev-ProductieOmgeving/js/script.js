@@ -1,176 +1,141 @@
-
+// Wacht tot de pagina volledig geladen is
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('newsletterForm');
-    const successMessage = document.getElementById('success-message');
-
-   
-    function validateField(field) {
-        const fieldId = field.id;
-        const errorElement = document.getElementById(fieldId + '-error');
-        let isValid = true;
-        let errorMessage = '';
-
-      
-        field.classList.remove('error');
-
-        
-        if (field.hasAttribute('required') && !field.value.trim()) {
-            isValid = false;
-            errorMessage = 'Dit veld is verplicht';
-        }
-
+    const inputs = form.querySelectorAll('input[required]');
+    const checkbox = document.getElementById('akkoord');
     
-        if (fieldId === 'postcode' && field.value.trim()) {
-            const postcodePattern = /^[0-9]{4}[A-Za-z]{2}$/;
-            if (!postcodePattern.test(field.value.trim())) {
-                isValid = false;
-                errorMessage = 'Voer een geldige postcode in (bijvoorbeeld: 1234AB)';
-            }
+    // Functie om een error message te tonen
+    function showError(input, message) {
+        const errorSpan = input.parentElement.querySelector('.error-message');
+        if (errorSpan) {
+            errorSpan.textContent = message;
         }
-
-        // Specifieke validatie voor telefoonnummer
-        if (fieldId === 'telefoonnummer' && field.value.trim()) {
-            // Nederlandse telefoonnummers: 10 cijfers, kan beginnen met 0 of +31
-            const phonePattern = /^(\+31|0)[1-9][0-9]{8}$/;
-            const cleanedPhone = field.value.trim().replace(/[\s\-\(\)]/g, ''); // Verwijder spaties, streepjes en haakjes
-            if (!phonePattern.test(cleanedPhone)) {
-                isValid = false;
-                errorMessage = 'Voer een geldig telefoonnummer in (bijvoorbeeld: 0612345678)';
-            }
-        }
-
-        // Specifieke validatie voor e-mail
-        if (fieldId === 'email' && field.value.trim()) {
-            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailPattern.test(field.value.trim())) {
-                isValid = false;
-                errorMessage = 'Voer een geldig e-mailadres in (bijvoorbeeld: naam@voorbeeld.nl)';
-            }
-        }
-
-       
-        if (fieldId === 'geboortedatum' && field.value) {
-            const birthDate = new Date(field.value);
-            const today = new Date();
-            if (birthDate > today) {
-                isValid = false;
-                errorMessage = 'Geboortedatum kan niet in de toekomst liggen';
-            }
-        }
-
-       
-        if (fieldId === 'akkoord' && field.hasAttribute('required')) {
-            if (!field.checked) {
-                isValid = false;
-                errorMessage = 'U moet akkoord gaan met de voorwaarden';
-            }
-        }
-
-     
-        if (!isValid) {
-            field.classList.add('error');
-            errorElement.textContent = errorMessage;
-        } else {
-            errorElement.textContent = '';
-        }
-
-        return isValid;
+        input.style.borderColor = '#ff0000';
     }
-
-  
-    const requiredFields = form.querySelectorAll('input[required]');
-    requiredFields.forEach(field => {
-        field.addEventListener('blur', function() {
-            validateField(field);
-        });
-    });
-
-
-    const postcodeField = document.getElementById('postcode');
-    postcodeField.addEventListener('input', function() {
-        
-        this.value = this.value.toUpperCase();
-        if (this.value.trim()) {
-            validateField(this);
-        }
-    });
-
-    // Valideer telefoonnummer bij input (real-time)
-    const telefoonnummerField = document.getElementById('telefoonnummer');
-    telefoonnummerField.addEventListener('input', function() {
-        // Verwijder spaties, streepjes en haakjes voor validatie
-        if (this.value.trim()) {
-            validateField(this);
-        }
-    });
-
-    // Valideer e-mail bij input (real-time)
-    const emailField = document.getElementById('email');
-    emailField.addEventListener('input', function() {
-        if (this.value.trim()) {
-            validateField(this);
-        }
-    });
-
-   
-    const akkoordCheckbox = document.getElementById('akkoord');
-    akkoordCheckbox.addEventListener('change', function() {
-        validateField(this);
-    });
-
     
+    // Functie om error message te verbergen
+    function hideError(input) {
+        const errorSpan = input.parentElement.querySelector('.error-message');
+        if (errorSpan) {
+            errorSpan.textContent = '';
+        }
+        input.style.borderColor = '#C0C0C0';
+    }
+    
+    // Validatie functie voor individuele velden
+    function validateField(input) {
+        const value = input.value.trim();
+        
+        // Checkbox validatie
+        if (input.type === 'checkbox') {
+            if (!input.checked) {
+                showError(input, 'U moet akkoord gaan met de voorwaarden');
+                return false;
+            } else {
+                hideError(input);
+                return true;
+            }
+        }
+        
+        // Lege velden (behalve tussenvoegsel)
+        if (input.hasAttribute('required') && value === '') {
+            showError(input, 'Dit veld is verplicht');
+            return false;
+        }
+        
+        // Email validatie
+        if (input.type === 'email' && value !== '') {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(value)) {
+                showError(input, 'Voer een geldig e-mailadres in');
+                return false;
+            }
+        }
+        
+        // Postcode validatie (NL formaat: 1234AB)
+        if (input.id === 'postcode' && value !== '') {
+            // Zet postcode om naar hoofdletters
+            input.value = value.toUpperCase();
+            const postcodePattern = /^[0-9]{4}[A-Z]{2}$/;
+            if (!postcodePattern.test(input.value)) {
+                showError(input, 'Voer een geldige postcode in (bijv. 1234AB)');
+                return false;
+            }
+        }
+        
+        // Telefoonnummer validatie (basis check)
+        if (input.type === 'tel' && value !== '') {
+            const phonePattern = /^[0-9\s\-\+\(\)]+$/;
+            if (!phonePattern.test(value) || value.replace(/\D/g, '').length < 10) {
+                showError(input, 'Voer een geldig telefoonnummer in');
+                return false;
+            }
+        }
+        
+        // Geboortedatum validatie (moet in het verleden liggen)
+        if (input.type === 'date' && value !== '') {
+            const selectedDate = new Date(value);
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            
+            if (selectedDate >= today) {
+                showError(input, 'Geboortedatum moet in het verleden liggen');
+                return false;
+            }
+        }
+        
+        // Als alles goed is, verberg error
+        hideError(input);
+        return true;
+    }
+    
+    // Real-time validatie bij input
+    inputs.forEach(input => {
+        // Bij blur (wanneer gebruiker veld verlaat)
+        input.addEventListener('blur', function() {
+            validateField(input);
+        });
+        
+        // Bij input (terwijl gebruiker typt) - alleen voor checkbox
+        if (input.type === 'checkbox') {
+            input.addEventListener('change', function() {
+                validateField(input);
+            });
+        }
+    });
+    
+    // Postcode automatisch omzetten naar hoofdletters
+    const postcodeInput = document.getElementById('postcode');
+    postcodeInput.addEventListener('input', function() {
+        this.value = this.value.toUpperCase();
+    });
+    
+    // Formulier submit handler
     form.addEventListener('submit', function(e) {
-        e.preventDefault(); 
-
-        let isFormValid = true;
-
-        requiredFields.forEach(field => {
-            if (!validateField(field)) {
-                isFormValid = false;
+        e.preventDefault();
+        
+        let isValid = true;
+        
+        // Valideer alle verplichte velden
+        inputs.forEach(input => {
+            if (!validateField(input)) {
+                isValid = false;
             }
         });
-
-     
-        if (postcodeField.value.trim() && !validateField(postcodeField)) {
-            isFormValid = false;
-        }
-
-        // Valideer telefoonnummer als deze is ingevuld
-        if (telefoonnummerField.value.trim() && !validateField(telefoonnummerField)) {
-            isFormValid = false;
-        }
-
-        // Valideer e-mail als deze is ingevuld
-        if (emailField.value.trim() && !validateField(emailField)) {
-            isFormValid = false;
-        }
-
         
-        if (isFormValid) {
-           
-            form.style.display = 'none';
+        // Als alles geldig is
+        if (isValid) {
+            // Hier zou je normaal de data naar een server sturen
+            // Voor nu doen we niets zoals gevraagd
+            console.log('Formulier is geldig, maar er gebeurt nog niets met de data');
             
-            
-            successMessage.style.display = 'block';
-
-            console.log('Formulier data:', {
-                voornaam: document.getElementById('voornaam').value,
-                tussenvoegsel: document.getElementById('tussenvoegsel').value,
-                achternaam: document.getElementById('achternaam').value,
-                geboortedatum: document.getElementById('geboortedatum').value,
-                straatnaam: document.getElementById('straatnaam').value,
-                postcode: document.getElementById('postcode').value,
-                woonplaats: document.getElementById('woonplaats').value,
-                telefoonnummer: document.getElementById('telefoonnummer').value,
-                email: document.getElementById('email').value,
-                akkoord: document.getElementById('akkoord').checked
-            });
+            // Optioneel: toon een bevestigingsmelding
+            alert('Formulier is succesvol ingevuld! (In productie zou dit verzonden worden)');
         } else {
-            
-            const firstError = form.querySelector('.error');
+            // Scroll naar eerste fout
+            const firstError = form.querySelector('.error-message:not(:empty)');
             if (firstError) {
                 firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                firstError.focus();
             }
         }
     });

@@ -3,83 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nieuwsbrief Aanmelden</title>
+    
+    <!-- Primary Meta Tags -->
+    <title>Aanvraag nieuwsbrief</title>
+    <meta name="title" content="Aanvraag nieuwsbrief">
+    <meta name="description" content="Vraag hier uw nieuwsbrief aan door het formulier in te vullen met uw gegevens.">
+    <meta name="keywords" content="nieuwsbrief, aanmelden, abonneren, nieuws, updates">
+    <meta name="author" content="Joël Rosier">
+    <meta name="language" content="Dutch">
+    
+    
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
-        <h1>Nieuwsbrief Aanmelden</h1>
+        <h1 class="title">Aanvraag nieuwsbrief</h1>
+        
         <form id="newsletterForm" novalidate>
-            <div class="form-group">
-                <label for="voornaam">Voornaam <span class="required">*</span></label>
-                <input type="text" id="voornaam" name="voornaam" required>
-                <span class="error-message" id="voornaam-error"></span>
+            <div class="form-grid">
+                <!-- Row 1 -->
+                <div class="form-field">
+                    <label for="voornaam">Wat is uw voornaam in!</label>
+                    <input type="text" id="voornaam" name="voornaam" required>
+                    <span class="error-message"></span>
+                </div>
+                
+                <div class="form-field">
+                    <label for="tussenvoegsel">Heeft u een tussenvoegsel</label>
+                    <input type="text" id="tussenvoegsel" name="tussenvoegsel">
+                    <span class="error-message"></span>
+                </div>
+                
+                <div class="form-field">
+                    <label for="achternaam">Wat is uw achternaam?</label>
+                    <input type="text" id="achternaam" name="achternaam" required>
+                    <span class="error-message"></span>
+                </div>
+                
+                <!-- Row 2 -->
+                <div class="form-field">
+                    <label for="straatnaam">Wat is uw straatnaam en nummer?</label>
+                    <input type="text" id="straatnaam" name="straatnaam" required>
+                    <span class="error-message"></span>
+                </div>
+                
+                <div class="form-field">
+                    <label for="email">Wat is uw email adres?</label>
+                    <input type="email" id="email" name="email" required>
+                    <span class="error-message"></span>
+                </div>
+                
+                <div class="form-field">
+                    <label for="postcode">Wat is uw postcode?</label>
+                    <input type="text" id="postcode" name="postcode" pattern="[0-9]{4}[A-Z]{2}" maxlength="6" required>
+                    <span class="error-message"></span>
+                </div>
+                
+                <!-- Row 3 -->
+                <div class="form-field">
+                    <label for="woonplaats">Wat is uw woonplaats?</label>
+                    <input type="text" id="woonplaats" name="woonplaats" required>
+                    <span class="error-message"></span>
+                </div>
+                
+                <div class="form-field">
+                    <label for="telefoonnummer">Wat is uw telefoonnummer</label>
+                    <input type="tel" id="telefoonnummer" name="telefoonnummer" required>
+                    <span class="error-message"></span>
+                </div>
+                
+                <div class="form-field">
+                    <label for="geboortedatum">Wat is uw geboortedatum?</label>
+                    <input type="date" id="geboortedatum" name="geboortedatum" required>
+                    <span class="error-message"></span>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="tussenvoegsel">Tussenvoegsel</label>
-                <input type="text" id="tussenvoegsel" name="tussenvoegsel">
-                <span class="error-message" id="tussenvoegsel-error"></span>
+            
+            <div class="checkbox-container">
+                <input type="checkbox" id="akkoord" name="akkoord" required>
+                <label for="akkoord">Ik ga akkoord met de voorwaarden zoals vermeld op de website!</label>
+                <span class="error-message"></span>
             </div>
-
-            <div class="form-group">
-                <label for="achternaam">Achternaam <span class="required">*</span></label>
-                <input type="text" id="achternaam" name="achternaam" required>
-                <span class="error-message" id="achternaam-error"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="geboortedatum">Geboortedatum <span class="required">*</span></label>
-                <input type="date" id="geboortedatum" name="geboortedatum" required>
-                <span class="error-message" id="geboortedatum-error"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="straatnaam">Straatnaam met nummer <span class="required">*</span></label>
-                <input type="text" id="straatnaam" name="straatnaam" placeholder="Bijvoorbeeld: Kerkstraat 123" required>
-                <span class="error-message" id="straatnaam-error"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="postcode">Postcode <span class="required">*</span></label>
-                <input type="text" id="postcode" name="postcode" placeholder="Bijvoorbeeld: 1234AB" pattern="[0-9]{4}[A-Za-z]{2}" required>
-                <span class="error-message" id="postcode-error"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="woonplaats">Woonplaats <span class="required">*</span></label>
-                <input type="text" id="woonplaats" name="woonplaats" required>
-                <span class="error-message" id="woonplaats-error"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="telefoonnummer">Telefoonnummer <span class="required">*</span></label>
-                <input type="tel" id="telefoonnummer" name="telefoonnummer" placeholder="Bijvoorbeeld: 0612345678" required>
-                <span class="error-message" id="telefoonnummer-error"></span>
-            </div>
-
-            <div class="form-group">
-                <label for="email">E-mailadres <span class="required">*</span></label>
-                <input type="email" id="email" name="email" placeholder="Bijvoorbeeld: naam@voorbeeld.nl" required>
-                <span class="error-message" id="email-error"></span>
-            </div>
-
-            <div class="form-group checkbox-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" id="akkoord" name="akkoord" required>
-                    <span>Ik ga akkoord met de voorwaarden <span class="required">*</span></span>
-                </label>
-                <span class="error-message" id="akkoord-error"></span>
-            </div>
-
-            <button type="submit" class="submit-btn">Verzenden</button>
+            
+            <button type="submit" class="submit-button">Verzenden</button>
         </form>
-
-        <div id="success-message" class="success-message" style="display: none;">
-            <p>Bedankt! U bent succesvol aangemeld voor de nieuwsbrief.</p>
-        </div>
     </div>
-
+    
     <script src="js/script.js"></script>
 </body>
 </html>
