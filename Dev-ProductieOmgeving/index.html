@@ -16,78 +16,76 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
+    <main class="container">
         <h1 class="title">Aanvraag nieuwsbrief</h1>
         
-        <form id="newsletterForm" novalidate>
-            <div class="form-grid">
-                <!-- Row 1 -->
-                <div class="form-field">
-                    <label for="voornaam">Wat is uw voornaam in!</label>
-                    <input type="text" id="voornaam" name="voornaam" required>
-                    <span class="error-message"></span>
-                </div>
-                
-                <div class="form-field">
-                    <label for="tussenvoegsel">Heeft u een tussenvoegsel</label>
-                    <input type="text" id="tussenvoegsel" name="tussenvoegsel">
-                    <span class="error-message"></span>
-                </div>
-                
-                <div class="form-field">
-                    <label for="achternaam">Wat is uw achternaam?</label>
-                    <input type="text" id="achternaam" name="achternaam" required>
-                    <span class="error-message"></span>
-                </div>
-                
-                <!-- Row 2 -->
-                <div class="form-field">
-                    <label for="straatnaam">Wat is uw straatnaam en nummer?</label>
-                    <input type="text" id="straatnaam" name="straatnaam" required>
-                    <span class="error-message"></span>
-                </div>
-                
-                <div class="form-field">
-                    <label for="email">Wat is uw email adres?</label>
-                    <input type="email" id="email" name="email" required>
-                    <span class="error-message"></span>
-                </div>
-                
-                <div class="form-field">
-                    <label for="postcode">Wat is uw postcode?</label>
-                    <input type="text" id="postcode" name="postcode" pattern="[0-9]{4}[A-Z]{2}" maxlength="6" required>
-                    <span class="error-message"></span>
-                </div>
-                
-                <!-- Row 3 -->
-                <div class="form-field">
-                    <label for="woonplaats">Wat is uw woonplaats?</label>
-                    <input type="text" id="woonplaats" name="woonplaats" required>
-                    <span class="error-message"></span>
-                </div>
-                
-                <div class="form-field">
-                    <label for="telefoonnummer">Wat is uw telefoonnummer</label>
-                    <input type="tel" id="telefoonnummer" name="telefoonnummer" required>
-                    <span class="error-message"></span>
-                </div>
-                
-                <div class="form-field">
-                    <label for="geboortedatum">Wat is uw geboortedatum?</label>
-                    <input type="date" id="geboortedatum" name="geboortedatum" required>
-                    <span class="error-message"></span>
-                </div>
-            </div>
+        <form id="newsletterForm" class="form-grid" novalidate>
+            <!-- Row 1 -->
+            <p class="form-field">
+                <label for="voornaam">Wat is uw voornaam in!</label>
+                <input type="text" id="voornaam" name="voornaam" required>
+                <span class="error-message"></span>
+            </p>
             
-            <div class="checkbox-container">
+            <p class="form-field">
+                <label for="tussenvoegsel">Heeft u een tussenvoegsel</label>
+                <input type="text" id="tussenvoegsel" name="tussenvoegsel">
+                <span class="error-message"></span>
+            </p>
+            
+            <p class="form-field">
+                <label for="achternaam">Wat is uw achternaam?</label>
+                <input type="text" id="achternaam" name="achternaam" required>
+                <span class="error-message"></span>
+            </p>
+            
+            <!-- Row 2 -->
+            <p class="form-field">
+                <label for="straatnaam">Wat is uw straatnaam en nummer?</label>
+                <input type="text" id="straatnaam" name="straatnaam" required>
+                <span class="error-message"></span>
+            </p>
+            
+            <p class="form-field">
+                <label for="email">Wat is uw email adres?</label>
+                <input type="email" id="email" name="email" required>
+                <span class="error-message"></span>
+            </p>
+            
+            <p class="form-field">
+                <label for="postcode">Wat is uw postcode?</label>
+                <input type="text" id="postcode" name="postcode" pattern="[0-9]{4}[A-Z]{2}" maxlength="6" required>
+                <span class="error-message"></span>
+            </p>
+            
+            <!-- Row 3 -->
+            <p class="form-field">
+                <label for="woonplaats">Wat is uw woonplaats?</label>
+                <input type="text" id="woonplaats" name="woonplaats" required>
+                <span class="error-message"></span>
+            </p>
+            
+            <p class="form-field">
+                <label for="telefoonnummer">Wat is uw telefoonnummer</label>
+                <input type="tel" id="telefoonnummer" name="telefoonnummer" required>
+                <span class="error-message"></span>
+            </p>
+            
+            <p class="form-field">
+                <label for="geboortedatum">Wat is uw geboortedatum?</label>
+                <input type="date" id="geboortedatum" name="geboortedatum" required>
+                <span class="error-message"></span>
+            </p>
+            
+            <p class="checkbox-container">
                 <input type="checkbox" id="akkoord" name="akkoord" required>
                 <label for="akkoord">Ik ga akkoord met de voorwaarden zoals vermeld op de website!</label>
                 <span class="error-message"></span>
-            </div>
+            </p>
             
             <button type="submit" class="submit-button">Verzenden</button>
         </form>
-    </div>
+    </main>
     
     <script src="js/script.js"></script>
 </body>

@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (errorSpan) {
             errorSpan.textContent = message;
         }
-        input.style.borderColor = '#ff0000';
+        input.style.borderColor = '#060505ff';
     }
     
     // Functie om error message te verbergen
