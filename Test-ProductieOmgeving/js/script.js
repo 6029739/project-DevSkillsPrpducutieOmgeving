@@ -28,6 +28,26 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
+        // Specifieke validatie voor telefoonnummer
+        if (fieldId === 'telefoonnummer' && field.value.trim()) {
+            // Nederlandse telefoonnummers: 10 cijfers, kan beginnen met 0 of +31
+            const phonePattern = /^(\+31|0)[1-9][0-9]{8}$/;
+            const cleanedPhone = field.value.trim().replace(/[\s\-\(\)]/g, ''); // Verwijder spaties, streepjes en haakjes
+            if (!phonePattern.test(cleanedPhone)) {
+                isValid = false;
+                errorMessage = 'Voer een geldig telefoonnummer in (bijvoorbeeld: 0612345678)';
+            }
+        }
+
+        // Specifieke validatie voor e-mail
+        if (fieldId === 'email' && field.value.trim()) {
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(field.value.trim())) {
+                isValid = false;
+                errorMessage = 'Voer een geldig e-mailadres in (bijvoorbeeld: naam@voorbeeld.nl)';
+            }
+        }
+
        
         if (fieldId === 'geboortedatum' && field.value) {
             const birthDate = new Date(field.value);
@@ -68,8 +88,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const postcodeField = document.getElementById('postcode');
     postcodeField.addEventListener('input', function() {
-       
+        
         this.value = this.value.toUpperCase();
+        if (this.value.trim()) {
+            validateField(this);
+        }
+    });
+
+    // Valideer telefoonnummer bij input (real-time)
+    const telefoonnummerField = document.getElementById('telefoonnummer');
+    telefoonnummerField.addEventListener('input', function() {
+        // Verwijder spaties, streepjes en haakjes voor validatie
+        if (this.value.trim()) {
+            validateField(this);
+        }
+    });
+
+    // Valideer e-mail bij input (real-time)
+    const emailField = document.getElementById('email');
+    emailField.addEventListener('input', function() {
         if (this.value.trim()) {
             validateField(this);
         }
@@ -98,6 +135,16 @@ document.addEventListener('DOMContentLoaded', function() {
             isFormValid = false;
         }
 
+        // Valideer telefoonnummer als deze is ingevuld
+        if (telefoonnummerField.value.trim() && !validateField(telefoonnummerField)) {
+            isFormValid = false;
+        }
+
+        // Valideer e-mail als deze is ingevuld
+        if (emailField.value.trim() && !validateField(emailField)) {
+            isFormValid = false;
+        }
+
         
         if (isFormValid) {
            
@@ -114,6 +161,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 straatnaam: document.getElementById('straatnaam').value,
                 postcode: document.getElementById('postcode').value,
                 woonplaats: document.getElementById('woonplaats').value,
+                telefoonnummer: document.getElementById('telefoonnummer').value,
+                email: document.getElementById('email').value,
                 akkoord: document.getElementById('akkoord').checked
             });
         } else {
