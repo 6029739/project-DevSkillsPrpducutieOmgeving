@@ -110,29 +110,52 @@ document.addEventListener('DOMContentLoaded', function() {
         this.value = this.value.toUpperCase();
     });
     
-    // Formulier submit handler
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
         let isValid = true;
         
-        // Valideer alle verplichte velden
         inputs.forEach(input => {
             if (!validateField(input)) {
                 isValid = false;
             }
         });
         
-        // Als alles geldig is
         if (isValid) {
-            // Hier zou je normaal de data naar een server sturen
-            // Voor nu doen we niets zoals gevraagd
-            console.log('Formulier is geldig, maar er gebeurt nog niets met de data');
+            const formData = new FormData(form);
             
-            // Optioneel: toon een bevestigingsmelding
-            alert('Formulier is succesvol ingevuld! (In productie zou dit verzonden worden)');
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', 'process.php', true);
+            
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    const response = JSON.parse(xhr.responseText);
+                    
+                    if (response.success) {
+                        alert(response.message);
+                        form.reset();
+                    } else {
+                        if (response.errors) {
+                            let errorMessage = 'Er zijn fouten gevonden:\n';
+                            for (let field in response.errors) {
+                                errorMessage += response.errors[field] + '\n';
+                            }
+                            alert(errorMessage);
+                        } else {
+                            alert('Er is een fout opgetreden');
+                        }
+                    }
+                } else {
+                    alert('Er is een fout opgetreden bij het verzenden');
+                }
+            };
+            
+            xhr.onerror = function() {
+                alert('Er is een fout opgetreden bij het verzenden');
+            };
+            
+            xhr.send(formData);
         } else {
-            // Scroll naar eerste fout
             const firstError = form.querySelector('.error-message:not(:empty)');
             if (firstError) {
                 firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
